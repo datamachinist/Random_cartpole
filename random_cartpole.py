@@ -6,8 +6,12 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 The system is controlled by applying a force of +1 or -1 to the cart. 
 The pendulum starts upright, and the goal is to prevent it from falling over. 
 A reward of +1 is provided for every timestep that the pole remains upright. 
-The episode ends when the pole is more than 15 degrees from vertical, 
-or the cart moves more than 2.4 units from the center.
+The episode ends if:
+1. Pole Angle is more than ±12°
+2. Cart Position is more than ±2.4 (center of the cart reaches the edge of the display)
+3. Episode length is greater than 200
+The problem is considered solved when the average reward is greater than or equal to 195 
+over 100 consecutive trials.  
 """
 
 env = gym.make('CartPole-v0')
