@@ -22,23 +22,27 @@ print(env.observation_space.low)
 # angle: min = -0.4, max = +0.4
 # velocity at tip: min = -3e38, max = 3e38
 
+nb_episodes = 20
+nb_timesteps = 100
+
 def policy():
-    action = env.action_space.sample()  # take a random action: either 0 or 1
+    """ return a random action: either 0 (left) or 1 (right)"""
+    action = env.action_space.sample()  
     return action
 
 
-for i_episode in range(20):      # 5 episodes
-    state = env.reset()
+for episode in range(nb_episodes):  # iterate over the episodes
+    state = env.reset()             # initialise the environment
     rewards = []
     
-    for t in range(100):        # 100 timesteps
-        env.render()
-        state, reward, done, info = env.step(policy())  # implement the action and get the observation and reward
-        rewards.append(reward)
+    for t in range(nb_timesteps):    # iterate over time steps
+        env.render()                 # display the environment
+        state, reward, done, info = env.step(policy())  # implement the action chosen by the policy
+        rewards.append(reward)      # add 1 to the rewards list
         
-        if done:
+        if done: # the episode ends either if the pole is > 15 deg from vertical or the cart move by > 2.4 unit from the centre
             cumulative_reward = sum(rewards)
-            print("episode {} finished after {} timesteps. Total reward: {}".format(i_episode, t+1, cumulative_reward))  # either the pole is > 15 deg from vertical or the cart move by > 2.4 unit from the centre
+            print("episode {} finished after {} timesteps. Total reward: {}".format(episode, t+1, cumulative_reward))  
             break
     
 env.close()
